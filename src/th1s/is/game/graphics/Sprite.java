@@ -6,7 +6,7 @@ public class Sprite {
 	private int x, y;
 	private int width, height;
 	public int pixels[];
-	private SpriteSheet sheet;
+	protected SpriteSheet sheet;
 	
 	
 	public static Sprite grass = new Sprite(16, 1, 0, SpriteSheet.tile);
@@ -42,6 +42,31 @@ public class Sprite {
 	public static Sprite bolt = new Sprite(16, 0, 0, SpriteSheet.projectile_mage);
 	
 	public static Sprite particle_normal = new Sprite(3, 0xfffc9403);
+	
+	public static Sprite dummy = new Sprite(32, 0, 0, SpriteSheet.player_down);
+	
+	
+	protected Sprite(SpriteSheet sheet, int width, int height){
+		if (width == height)
+			SIZE = width;
+		else 
+			SIZE = -1;
+		this.width = width;
+		this.height = height;
+		this.sheet = sheet;
+	}
+	
+	public Sprite(int [] pixels, int width, int height){
+		if (width == height)
+			SIZE = width;
+		else 
+			SIZE = -1;
+		this.width = width;
+		this.height = height;
+		this.pixels = pixels;
+		//for(int i = 0; i < pixels.length; i++)
+			//System.out.println("i : " + pixels[i]);
+	}
 	
 	public Sprite(int size, int x, int y, SpriteSheet sheet){
 		SIZE = size;
@@ -86,9 +111,9 @@ public class Sprite {
 	}
 	
 	private void load(){
-		for(int y = 0; y < SIZE; y++){
-			for(int x = 0; x< SIZE; x++){
-				pixels[x + y * SIZE] = sheet.pixels[(x + this.x) + (y + this.y) * sheet.SIZE ];
+		for(int y = 0; y < height; y++){
+			for(int x = 0; x< width; x++){
+				pixels[x + y * width] = sheet.pixels[(x + this.x) + (y + this.y) * sheet.WIDTH ];
 			}
 		}
 	}

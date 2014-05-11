@@ -71,16 +71,13 @@ public class Level {
 		return projectiles;
 	}
 	
-	private void time(){
-		
-	}
-	
-	public boolean tileCollision(double x, double y, double xa, double ya, int size){
+	public boolean tileCollision(int x, int y, int size, int xOffset, int yOffset){
 		boolean solid = false;
 		for(int c = 0; c < 4; c++){
-			int xt = (((int)x + (int)xa) + c % 2 * size - 10) / 16;
-			int yt = (((int)y + (int)ya) + c / 2 * size) / 16;
-			if(getTile((int)xt, (int)yt).solid())
+			int xt = (x - c % 2 * size + xOffset) >> 4;
+			int yt = (y - c / 2 * size + yOffset) >> 4;
+			//System.out.println("x: " + x + ", y: " + y + ", size: " + size  + ", xt: " + xt + ", yt: " + yt + ", collision: " + getTile(xt, yt).solid());
+			if(getTile(xt, yt).solid())
 				solid = true;
 		}
 		return solid;
@@ -130,7 +127,7 @@ public class Level {
 			case 0xFF4CFF00:
 				return Tile.grass;
 			case 0xFFA5FFFA:
-				return Tile.styro;
+				return Tile.wood;
 			case 0xFF7F3300:
 				return Tile.wood;
 			case 0xFF404040:

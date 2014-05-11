@@ -3,8 +3,10 @@ package th1s.is.game.entity.mob;
 import th1s.is.game.Game;
 import th1s.is.game.entity.projectile.Projectile;
 import th1s.is.game.entity.projectile.magic;
+import th1s.is.game.graphics.AnimatedSprite;
 import th1s.is.game.graphics.Screen;
 import th1s.is.game.graphics.Sprite;
+import th1s.is.game.graphics.SpriteSheet;
 import th1s.is.game.input.Keyboard;
 import th1s.is.game.input.Mouse;
 
@@ -12,14 +14,19 @@ public class Player extends Mob{
 	
 	private Keyboard input;
 	private Sprite sprite;
-	private int anim = 0;
 	private boolean walking = false;
+	private AnimatedSprite up = new AnimatedSprite(SpriteSheet.player_up, 32, 32, 3);
+	private AnimatedSprite right = new AnimatedSprite(SpriteSheet.player_right, 32, 32, 2);
+	private AnimatedSprite down = new AnimatedSprite(SpriteSheet.player_down, 32, 32, 3);
+	private AnimatedSprite left = new AnimatedSprite(SpriteSheet.player_left, 32, 32, 2);
+	private AnimatedSprite animSprite = down;
 	
 	private int fireRate = 0;
 	
 	public Player(Keyboard input){
 		this.input = input;
 		sprite = Sprite.playerb; // default - player facing forward 
+		animSprite = down;
 	}
 
 	public Player(int x, int y, Keyboard input){
@@ -31,24 +38,32 @@ public class Player extends Mob{
 	}
 	
 	public void update(){
+		if(walking) 
+			animSprite.update();
+		else
+			animSprite.setFrame(0);
 		if(fireRate > 0)
 			fireRate--;
 		int xa = 0,
 			ya = 0;
 		
-		if(anim < 1000000000) // reset the anim so anim stays under 2.1b
-			anim++;
-		else 
-			anim = 0;
 		
-		if(input.up) // move the corresponding direction
+		if(input.up){ // move the corresponding direction
 			ya--;
-		if(input.down)
+			animSprite = up;
+		}
+		if(input.down){
 			ya++;
-		if(input.left)
+			animSprite = down;
+		}
+		if(input.left){
 			xa--;
-		if(input.right)
+			animSprite = left;
+		}
+		if(input.right){
 			xa++;
+			animSprite = right;
+		}
 		if(xa != 0 || ya != 0){ // if not standing still
 			move(xa, ya); // move
 			walking = true; // set walking to true
@@ -79,7 +94,9 @@ public class Player extends Mob{
 	}
 
 	public void render(Screen screen){
+		
 		int flip = 0;
+		/*
 		if(dir == 0){
 			sprite = Sprite.playerf; // set sprite to corresponding direction
 			if(walking){ // if walking
@@ -110,8 +127,9 @@ public class Player extends Mob{
 		}
 		
 		if(dir == 3)
-			flip = 1;
-		screen.renderPlayer((int)x - 16,(int) y - 16, sprite, flip); //offset to middle of player
+			flip = 1;*/
+		sprite = animSprite.getSprite();
+		screen.renderMob((int)x - 16,(int) y - 24, sprite, flip); //offset to middle of player
 	}
 	
 }

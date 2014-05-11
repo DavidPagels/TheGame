@@ -5,8 +5,6 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import th1s.is.game.level.tile.Tile;
-
 public class SpawnLevel extends Level{
 	
 	public SpawnLevel(String path){

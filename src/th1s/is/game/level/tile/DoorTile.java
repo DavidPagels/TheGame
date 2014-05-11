@@ -1,6 +1,5 @@
 package th1s.is.game.level.tile;
 
-import th1s.is.game.entity.mob.Player;
 import th1s.is.game.graphics.Screen;
 import th1s.is.game.graphics.Sprite;
 

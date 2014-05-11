@@ -4,7 +4,7 @@ import th1s.is.game.entity.Entity;
 import th1s.is.game.entity.particle.Particle;
 import th1s.is.game.level.Level;
 
-public class Spawner extends Entity {
+public abstract class Spawner extends Entity {
 	
 	public enum Type {MOB, PARTICLE}
 	
